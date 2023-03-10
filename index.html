@@ -76,7 +76,15 @@
             });
         })
         $('#resizeto50p').click(function() {
-
+            var canvas = document.getElementById('imgloaded');     
+            img = new Image();
+            img.src = path;
+            ctx = canvas.getContext('2d');            
+            img.onload = function(){
+                canvas.width = Number(img.width * 0.5);
+                canvas.height = Number(img.height * 0.5);
+                ctx.drawImage(img, 0, 0);
+            }
         })
         function canvasWithImage() {
             var canvas = document.getElementById('imgloaded');     
