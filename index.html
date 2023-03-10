@@ -27,7 +27,65 @@
         <canvas id="imgloaded"  style="margin-top: 6px; border: 1px solid gray;"></canvas>
 
     </div>
+    <script>
+        let path = "";
+        $('#uploadfile').change(function(event) {
+            path = URL.createObjectURL(event.target.files[0])
+            // $('img').fadeIn('fast').attr('src', path) if image tag is used
+            canvasWithImage(); //To use canvas
+            $('#uploadimg').hide();
+            $('#showimg').show();
+            $('#deleteimg').click(function() {
+                $('img').fadeIn('fast').attr('src','')  
+                $('#uploadimg').show();
+                $('#showimg').hide();                       
+            });            
+        })
+        $('#postimg').click(function() {
+            var d = new FormData();
+            //d.append('file', document.getElementById("uploadfile").files[0]); If image tag is used
+            console.log(path)
+            var canvas = document.getElementById('imgloaded');
+            var dataUrl =  canvas.toDataURL();
+            i = document.getElementById('uploadfile').value;
+            if (i) {
+                var s = (i.indexOf('\\') >= 0 ? i.lastIndexOf('\\') : i.lastIndexOf('/'));
+                var f = i.substring(s);
+                if (f.indexOf('\\') === 0 || f.indexOf('/') === 0) {
+                    f = f.substring(1);
+                }
+                console.log(f);
+            }
+            d.append('file', dataUrl);
+            d.append('name', f);
 
+            $.ajax({
+                url :  "save.php",
+                type: 'POST',
+                data: d,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                console.log(data)    
+                alert(data);
+            },    
+            error: function() {
+                alert("Error ocurred!");
+            }
+            });
+        })
+        function canvasWithImage() {
+            var canvas = document.getElementById('imgloaded');     
+            img = new Image();
+            img.src = path;
+            ctx = canvas.getContext('2d');            
+            img.onload = function(){
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+            }
+        }
+    </script>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
