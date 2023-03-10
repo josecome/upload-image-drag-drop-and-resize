@@ -21,6 +21,7 @@
     </div>
     <div id="showimg" class="center" style="display: none; height: 500px;">
         <button id="deleteimg" class="btn btn-danger">Delete Image</button>
+        <button id="resizeto50p" class="btn btn-info" style="margin-left: 10px;">Resize to 50%</button>
         <button id="postimg" class="btn btn-primary" style="margin-left: 10px;">Save Image</button>
         <br />
         <!--<img id="imgloaded" src="" style="width: 200px; height: 200px; margin-top: 6px;"/>-->
@@ -73,6 +74,9 @@
                 alert("Error ocurred!");
             }
             });
+        })
+        $('#resizeto50p').click(function() {
+
         })
         function canvasWithImage() {
             var canvas = document.getElementById('imgloaded');     
